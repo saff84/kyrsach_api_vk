@@ -43,7 +43,7 @@ for photo in spisok_photo:
             f.write(response.content)
 
 if __name__ == '__main__':
-    # token = 'AQAAAAAPDYswAADLW-cnxjt4pkdRvcDsCQp3qMI'
+    # token = ''
     token = input('Введите токен для авторизации на Яндекс Диске: ')
     uploader = YaUploader(token)
     upload_path = input('Введите название папки для загрузки: ')
