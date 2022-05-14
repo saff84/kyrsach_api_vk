@@ -27,11 +27,12 @@ with open('photos.json') as json_file:
 # pprint(data)
 spisok_photo = []
 for photo in data:
-    if  str(photo['likes']['count']) + ".jpg" in list(map(lambda x: x['file_name'], spisok_photo)):
-        spisok_photo.append({"file_name": str(photo['likes']['count'])+ "_" + str(photo['date']) + ".jpg","size":photo['sizes'][-1]['type'],'url':photo['sizes'][-1]['url']})
+    if str(photo['likes']['count']) + ".jpg" in list(map(lambda x: x['file_name'], spisok_photo)):
+        spisok_photo.append({"file_name": str(photo['likes']['count']) + "_" + str(photo['date']) + ".jpg", "size":
+            photo['sizes'][photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))]['type'], 'url': photo['sizes'][photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))]['url']})
     else:
-        spisok_photo.append({"file_name": str(photo['likes']['count']) + ".jpg", "size": photo['sizes'][-1]['type'],
-                         'url': photo['sizes'][-1]['url']})
+        spisok_photo.append({"file_name": str(photo['likes']['count']) + ".jpg", "size":
+            photo['sizes'][photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))]['type'], 'url': photo['sizes'][photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))]['url']})
 # pprint(spisok_photo)
 
 #Загружаем файлы с соответствющими названиями в отдельную папку на компьютер
