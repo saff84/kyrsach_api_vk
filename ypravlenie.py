@@ -6,12 +6,12 @@ import requests
 import os
 import time
 
-name_directory = input('Введите название новой папки для загрузки фотографий: ')
-if not os.path.isdir(name_directory):
-     os.mkdir(name_directory)
-     print(f'Папка {name_directory} создана')
-else:
-    print('Такая папка уже существует')
+# name_directory = input('Введите название новой папки для загрузки фотографий: ')
+# if not os.path.isdir(name_directory):
+#      os.mkdir(name_directory)
+#      print(f'Папка {name_directory} создана')
+# else:
+#     print('Такая папка уже существует')
 token = "a67f00c673c3d4b12800dd0ba29579ec56d804f3c5f3bbcef5328d4b3981fa5987b951cf2c8d8b24b9abd"
 vk_client = VkUser(token, '5.131')
 vk_id = int(input('Введите id ')) #552934290
@@ -36,12 +36,12 @@ for photo in data:
 # pprint(spisok_photo)
 
 #Загружаем файлы с соответствющими названиями в отдельную папку на компьютер
-for photo in spisok_photo:
-    response = requests.get(photo['url'])
-    filename = f'{photo["file_name"]}'
-    if response.status_code == 200:
-        with open(f'{name_directory}/{filename}',"wb") as f:
-            f.write(response.content)
+# for photo in spisok_photo:
+#     response = requests.get(photo['url'])
+#     filename = f'{photo["file_name"]}'
+#     if response.status_code == 200:
+#         with open(f'{name_directory}/{filename}',"wb") as f:
+#             f.write(response.content)
 
 if __name__ == '__main__':
     # token = ''
@@ -50,10 +50,22 @@ if __name__ == '__main__':
     upload_path = input('Введите название папки для загрузки: ')
     uploader.new_folder(upload_path)
 
+    # Загружаем файлы с соответствющими названиями из отдельной папки на компьютере в Яндекс Диск
+    # for photo in spisok_photo:
+    #     file = f'{name_directory}/{photo["file_name"]}'
+    #     path_to_file = f'{os.path.split(file)[1]}'
+    #     #p_bar =
+    #     print(f'Загружаю файл {path_to_file} в папку {upload_path}')
+    #     result = uploader.upload_file(f'{upload_path}/{os.path.split(file)[1]}',file)
+    # print('Загрузка завершена')
+
+    # Загружаем файлы с соответствющими названиями по url в ВК  в Яндекс Диск
     for photo in spisok_photo:
-        file = f'{name_directory}/{photo["file_name"]}'
-        path_to_file = f'{os.path.split(file)[1]}'
+        file = f'{photo["file_name"]}'
+        url = f'{photo["url"]}'
         #p_bar =
-        print(f'Загружаю файл {path_to_file} в папку {upload_path}')
-        result = uploader.upload_file(f'{upload_path}/{os.path.split(file)[1]}',file)
+        print(f'Загружаю файл {file} в папку {upload_path}')
+        result = uploader.upload_file(f'{upload_path}/{file}', url)
+
+
     print('Загрузка завершена')

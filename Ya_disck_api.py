@@ -23,19 +23,21 @@ class YaUploader:
             print('Новая папка создана')
 
 #Получаем ссылку для загрузки на яндекс диск
-    def upload_link(self, file_path: str):
+    def upload_link(self, file_path: str, url_file: str):
         """Метод загружает файлы по списку file_list на яндекс диск"""
         url = f'{self.host}/v1/disk/resources/upload'
         headers = self.get_headers()
-        params = {'path':file_path, 'overwrite': True}
-        response = requests.get(url, params = params, headers=headers)
+        params = {'path':file_path, 'url': url_file, 'overwrite': True}
+        response = requests.post(url, params = params, headers=headers)
         return response.json().get('href')
 
     # Загрузчик на Яндекс Диск
-    def upload_file(self, path, file_name):
-        up_link = self.upload_link(path)
+    def upload_file(self, path, url_file):
+        up_link = self.upload_link(path, url_file)
         headers = self.get_headers()
-        response = requests.put(up_link, data=open(file_name,'rb'), headers=headers)
-        response.raise_for_status()
+        response = requests.put(up_link, headers= headers)
+        # response.raise_for_status()
         if response.status_code == 201:
             print('Файл загружен')
+
+
