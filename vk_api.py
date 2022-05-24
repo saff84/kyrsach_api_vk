@@ -10,6 +10,20 @@ class VkUser:
             'access_token': token,
             'v': version
         }
+    def user_get(self, owner):
+        user_get_url = self.url + 'utils.resolveScreenName'
+        user_get_params = {
+            "screen_name" : owner
+
+        }
+        req = requests.get(
+            user_get_url,
+            params={
+                **self.params,
+                **user_get_params}).json()
+        # print(req)
+        # return req['response']['object_id']
+
 
     def photos_get(self, owner, count):
         photos_get_url = self.url + 'photos.get'

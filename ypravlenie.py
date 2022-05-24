@@ -4,24 +4,28 @@ from vk_api import VkUser
 import configparser
 
 if __name__ == '__main__':
+    #Вытаскиваем токен для Vk из settings.ini
     config_vk = configparser.ConfigParser()
     config_vk.read("settings.ini")
     token_vk = config_vk["vk"]["token"]
+
     vk_client = VkUser(token_vk, '5.131')
-    vk_id = input('Введите id ')  # 552934290
+    vk_id = input('Введите id или коротке имя пользователя: ')  # 552934290
     vk_photos_count = int(input('Введите кол-во скачиваемых фотографий '))
 
-    # Получаем данные с vk и пишем в файл
-    photos = vk_client.photos_get(vk_id, vk_photos_count)
+    #Проверяем пришло id или screen_name
+    if vk_id.isnumeric():
+        photos = vk_client.photos_get(vk_id, vk_photos_count) # Получаем данные с vk и пишем в файл
+    else:
+        screen_name = vk_client.user_get(vk_id) # вытаскиваем id по screen_name
+        photos = vk_client.photos_get(screen_name, vk_photos_count) # Получаем данные с vk и пишем в файл
 
-    # Достаем из файла из вк нужные данные и формируем названия фотографий в
-    # соответствии с требованиями
+    # Достаем из файла из вк нужные данные и формируем названия фотографий в соответствии с требованиями
     with open('photos.json', "w", encoding="utf-8") as f:
         json.dump(photos, f)
 
     with open('photos.json') as json_file:
         data = json.load(json_file)
-    # pprint(data)
 
     # формируем список с нужными данными из vk
     spisok_photo = []
@@ -37,7 +41,12 @@ if __name__ == '__main__':
                                  photo['sizes'][photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))][
                 'type'], 'url': photo['sizes'][
                 photo['sizes'].index(max(photo['sizes'], key=lambda s: s['height'] * s['width']))]['url']})
-    # token = ''
+
+    #Вытаскиваем токен для Yandex из settings.ini - ток там пусто)
+    # config_ya = configparser.ConfigParser()
+    # config_ya.read("settings.ini")
+    # token_ya = config_ya["Yandex"]["token"]
+
 
     token_ya = input('Введите токен для авторизации на Яндекс Диске: ')
     uploader = YaUploader(token_ya)
@@ -48,7 +57,6 @@ if __name__ == '__main__':
     for photo in spisok_photo:
         file = f'{photo["file_name"]}'
         url = f'{photo["url"]}'
-        # p_bar =
         print(f'Загружаю файл {file} в папку {upload_path}')
         result = uploader.upload_file(f'{upload_path}/{file}', url)
 
