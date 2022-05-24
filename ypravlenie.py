@@ -1,20 +1,18 @@
-from vk_api import VkUser
-from Ya_disck_api import YaUploader
 import json
-from pprint import pprint
-import requests
-import os
-import time
-
+from Ya_disck_api import YaUploader
+from vk_api import VkUser
+import configparser
 
 if __name__ == '__main__':
-
-    token_vk = "a67f00c673c3d4b12800dd0ba29579ec56d804f3c5f3bbcef5328d4b3981fa5987b951cf2c8d8b24b9abd"
+    config_vk = configparser.ConfigParser()
+    config_vk.read("settings.ini")
+    token_vk = config_vk["vk"]["token"]
     vk_client = VkUser(token_vk, '5.131')
     vk_id = input('Введите id ')  # 552934290
+    vk_photos_count = int(input('Введите кол-во скачиваемых фотографий '))
 
     # Получаем данные с vk и пишем в файл
-    photos = vk_client.photos_get(vk_id)
+    photos = vk_client.photos_get(vk_id, vk_photos_count)
 
     # Достаем из файла из вк нужные данные и формируем названия фотографий в
     # соответствии с требованиями
