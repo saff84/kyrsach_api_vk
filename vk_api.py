@@ -22,7 +22,7 @@ class VkUser:
                 **self.params,
                 **user_get_params}).json()
         # print(req)
-        # return req['response']['object_id']
+        return req['response']['object_id']
 
 
     def photos_get(self, owner, count):
