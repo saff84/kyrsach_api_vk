@@ -1,6 +1,7 @@
 import json
 from vk_api import VkUser
 from Ya_disck_api import YaUploader
+import configparser
 
 # Инициализируем пользователя vk и запускаем парсинг фоток
 
@@ -59,11 +60,11 @@ def data_file_encoding():
 
 def init_ya(spisok_photo):
     # Вытаскиваем токен для Yandex из settings.ini - ток там пусто)
-    # config_ya = configparser.ConfigParser()
-    # config_ya.read("settings.ini")
-    # token_ya = config_ya["Yandex"]["token"]
+    config_ya = configparser.ConfigParser()
+    config_ya.read("settings.ini")
+    token_ya = config_ya["Yandex"]["token"]
 
-    token_ya = input('Введите токен для авторизации на Яндекс Диске: ')
+    # token_ya = input('Введите токен для авторизации на Яндекс Диске: ')
     uploader = YaUploader(token_ya)
     upload_path = input('Введите название папки для загрузки: ')
     uploader.new_folder(upload_path)
