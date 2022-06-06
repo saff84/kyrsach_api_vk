@@ -7,12 +7,12 @@ import configparser
 
 
 def init_vk():
-    # Вытаскиваем токен для Vk из settings.ini
-    # config_vk = configparser.ConfigParser()
-    # config_vk.read("settings.ini")
-    # token_vk = config_vk["vk"]["token"]
+    # Вытаскиваем токен для Vk из settings.ini по умолчанию стоит из ДЗ
+    config_vk = configparser.ConfigParser()
+    config_vk.read("settings.ini")
+    token_vk = config_vk["vk"]["token"]
 
-    token_vk = input('Введите token пользователя vk: ')
+    # token_vk = input('Введите token пользователя vk: ')
     vk_client = VkUser(token_vk, '5.131')
     vk_id = input('Введите id или короткое имя пользователя: ')  # 552934290
     vk_photos_count = int(input('Введите кол-во скачиваемых фотографий '))
@@ -32,10 +32,10 @@ def init_vk():
 # Преобразуем файл в файл с нужными названиями и адресами для скачивания
 
 
-def data_file_encoding():
-
-    with open('photos.json') as json_file:
-        data = json.load(json_file)
+def data_file_encoding(data):
+    #Сделал без промежуточного файла json
+    # with open('photos.json') as json_file:
+    #     data = json.load(json_file)
 
     # формируем список с нужными данными из vk
     spisok_photo = []
